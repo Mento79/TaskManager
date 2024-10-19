@@ -84,7 +84,8 @@ class _TaskDialogState extends State<TaskDialog> {
                 description: _descriptionController.text,
                 priority: _priority,
                 deadline: _deadline!,
-                isOverdue: DateTime.now().isAfter(_deadline!),
+                isOverdue: DateTime.now()
+                    .isAfter(_deadline!.add(Duration(days: 1)).subtract(Duration(milliseconds: 1))),
                 isCompleted: false,
               );
 

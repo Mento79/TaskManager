@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:hive/hive.dart';
 import '../models/task.dart';
 
@@ -206,6 +207,81 @@ class TaskProvider with ChangeNotifier {
     final index = _taskBox.values.toList().indexOf(oldTask);
     _taskBox.putAt(index, newTask);
     notifyListeners();
+  }
+  // Method to automatically mark overdue tasks
+  void checkAndMarkOverdueTasks() {
+    final now = DateTime.now();
+    for (var task in _taskBox.values) {
+      if (!task.isCompleted && !task.isOverdue && now.isAfter(task.deadline
+          .add(Duration(days: 1)).subtract(Duration(milliseconds: 1)))) {
+        // Mark the task as overdue
+        task.isOverdue = true;
+        final index = _taskBox.values.toList().indexOf(task);
+        _taskBox.putAt(index, task);
+
+        // Send notification for overdue task
+        sendOverdueNotification(task, index);
+      }
+    }
+    notifyListeners();
+  }
+
+  // Send notification for overdue tasks
+  void sendOverdueNotification(Task task, int index) async {
+    final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+    const AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
+      'overdue_channel', // Channel ID
+      'Overdue Tasks',   // Channel name
+      channelDescription: 'Notifications for overdue tasks', // Channel description
+      importance: Importance.max,
+      priority: Priority.high,
+    );
+    const NotificationDetails platformDetails = NotificationDetails(android: androidDetails);
+
+    await flutterLocalNotificationsPlugin.show(
+      index, // Unique ID
+      'Task is Overdue',
+      '${task.title} is overdue!',
+      platformDetails,
+    );
+  }
+
+  Future<void> checkAndNotifyForTodayTasks() async {
+    final today = DateTime.now();
+    final tasksDueToday = _taskBox.values.where((task) {
+      return task.deadline.year == today.year &&
+          task.deadline.month == today.month &&
+          task.deadline.day == today.day &&
+          !task.isCompleted;
+    }).toList();
+
+    if (tasksDueToday.isNotEmpty) {
+      _sendTodayTaskNotification(tasksDueToday.length);
+    }
+  }
+
+  void _sendTodayTaskNotification(int taskCount) async {
+    final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+    const AndroidNotificationDetails androidPlatformChannelSpecifics =
+    AndroidNotificationDetails(
+      'your_channel_id', // Channel ID
+      'Upcoming Tasks',  // Channel name
+      channelDescription: 'Notifications for tasks with deadlines today.',
+      importance: Importance.max,
+      priority: Priority.high,
+      ticker: 'ticker',
+    );
+
+    const NotificationDetails platformChannelSpecifics =
+    NotificationDetails(android: androidPlatformChannelSpecifics);
+
+    await flutterLocalNotificationsPlugin.show(
+      0, // Notification ID
+      'Tasks Due Today',
+      '$taskCount task(s) have deadlines today. Don\'t forget to complete them!',
+      platformChannelSpecifics,
+      payload: 'Tasks Due Today',
+    );
   }
 
 

@@ -120,7 +120,8 @@ class _EditTaskDialogState extends State<EditTaskDialog> {
       description: _descriptionController.text,
       deadline: _selectedDeadline,
       priority: _selectedPriority,
-      isOverdue: DateTime.now().isAfter(_selectedDeadline),
+      isOverdue: DateTime.now()
+          .isAfter(_selectedDeadline!.add(Duration(days: 1)).subtract(Duration(milliseconds: 1))),
       isCompleted: widget.task.isCompleted,
     );
 
