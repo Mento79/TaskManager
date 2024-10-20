@@ -18,6 +18,10 @@ Task Manager App is a Flutter-based application designed to help users organize,
 - **Automatic Building, Releasing and deployment**: The app automatically build apk and make a release on github and deploy it to the workflow on every push or pull request to the main branch.
 - **Dark mode**: The app contains dark mode for who hates dark mode as it attracts bugs.
 
+## Downloading The app
+
+You can download it from [Github](https://github.com/Mento79/TaskManager/releases/) or from [Google Drive](https://drive.google.com/file/d/1jeawYBdW5BX0buXXW-pyMOFs3jcA88DK/)
+
 ## Getting Started
 
 ### Prerequisites
