@@ -16,9 +16,8 @@ class TaskPieChart extends StatelessWidget {
   Widget build(BuildContext context) {
     return PieChart(
       PieChartData(
-
         startDegreeOffset: 0, // Ensures the pie chart is a full circle
-        sectionsSpace: 0,     // No space between sections for a complete look
+        sectionsSpace: 0, // No space between sections for a complete look
         centerSpaceRadius: 0, // Adjust this to make the chart more compact
         sections: _buildPieChartSections(),
       ),
@@ -32,16 +31,17 @@ class TaskPieChart extends StatelessWidget {
     final overduePercentage = (overdueTasks / totalTasks) * 100;
 
     return [
-      if(completedPercentage!=0)
+      if (completedPercentage != 0)
         PieChartSectionData(
           color: Colors.green,
           value: completedPercentage,
           title: 'Completed\n${completedPercentage.toStringAsFixed(1)}%',
-          radius: 120, // Radius to make the section size visible
+          radius: 120,
+          // Radius to make the section size visible
           titleStyle: TextStyle(fontSize: 16, color: Colors.white),
           showTitle: true, // Ensure labels are visible
         ),
-      if(inProgressPercentage!=0)
+      if (inProgressPercentage != 0)
         PieChartSectionData(
           color: Colors.orange,
           value: inProgressPercentage,
@@ -50,7 +50,7 @@ class TaskPieChart extends StatelessWidget {
           titleStyle: TextStyle(fontSize: 16, color: Colors.white),
           showTitle: true,
         ),
-      if(overduePercentage!=0)
+      if (overduePercentage != 0)
         PieChartSectionData(
           color: Colors.red,
           value: overduePercentage,

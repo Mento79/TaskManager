@@ -16,7 +16,7 @@ class _TaskDialogState extends State<TaskDialog> {
 
   int _priority = 1;
 
-  DateTime? _deadline ;
+  DateTime? _deadline;
 
   @override
   Widget build(BuildContext context) {
@@ -47,8 +47,11 @@ class _TaskDialogState extends State<TaskDialog> {
               },
               decoration: InputDecoration(labelText: 'Priority'),
             ),
-            const SizedBox(height: 8.0,),
-            Text('Deadline: ${_deadline.toString().split(' ')[0]=='null'?'':_deadline.toString().split(' ')[0]}'),
+            const SizedBox(
+              height: 8.0,
+            ),
+            Text(
+                'Deadline: ${_deadline.toString().split(' ')[0] == 'null' ? '' : _deadline.toString().split(' ')[0]}'),
             ElevatedButton(
               onPressed: () async {
                 DateTime? pickedDate = await showDatePicker(
@@ -78,7 +81,7 @@ class _TaskDialogState extends State<TaskDialog> {
         ),
         ElevatedButton(
           onPressed: () {
-            if (_titleController.text.isNotEmpty && _deadline!=null) {
+            if (_titleController.text.isNotEmpty && _deadline != null) {
               final newTask = Task(
                 title: _titleController.text,
                 description: _descriptionController.text,
@@ -99,8 +102,7 @@ class _TaskDialogState extends State<TaskDialog> {
                 SnackBar(content: Text('Title cannot be empty!')),
               );
             }
-          }
-,
+          },
           child: Text('Add Task'),
         ),
       ],

@@ -36,45 +36,43 @@ class RoundedExpansionTile extends StatefulWidget {
 
   RoundedExpansionTile(
       {this.title,
-        this.subtitle,
-        this.leading,
-        this.trailing,
-        this.duration,
-        this.children,
-        this.autofocus,
-        this.contentPadding,
-        this.dense,
-        this.enabled,
-        this.enableFeedback,
-        this.focusColor,
-        this.focusNode,
-        this.horizontalTitleGap,
-        this.hoverColor,
-        this.isThreeLine,
-        this.key,
-        this.minLeadingWidth,
-        this.minVerticalPadding,
-        this.mouseCursor,
-        this.onLongPress,
-        this.selected,
-        this.selectedTileColor,
-        this.shape,
-        this.tileColor,
-        this.visualDensity,
-        this.onTap,
-        this.curve,
-        this.childrenPadding,
-        this.rotateTrailing,
-        this.noTrailing,
-        this.initiallyExpanded = false
-      });
+      this.subtitle,
+      this.leading,
+      this.trailing,
+      this.duration,
+      this.children,
+      this.autofocus,
+      this.contentPadding,
+      this.dense,
+      this.enabled,
+      this.enableFeedback,
+      this.focusColor,
+      this.focusNode,
+      this.horizontalTitleGap,
+      this.hoverColor,
+      this.isThreeLine,
+      this.key,
+      this.minLeadingWidth,
+      this.minVerticalPadding,
+      this.mouseCursor,
+      this.onLongPress,
+      this.selected,
+      this.selectedTileColor,
+      this.shape,
+      this.tileColor,
+      this.visualDensity,
+      this.onTap,
+      this.curve,
+      this.childrenPadding,
+      this.rotateTrailing,
+      this.noTrailing,
+      this.initiallyExpanded = false});
 
   @override
   _RoundedExpansionTileState createState() => _RoundedExpansionTileState();
 }
 
-class _RoundedExpansionTileState extends State<RoundedExpansionTile>
-    with TickerProviderStateMixin {
+class _RoundedExpansionTileState extends State<RoundedExpansionTile> with TickerProviderStateMixin {
   late bool _expanded;
   bool? _rotateTrailing;
   bool? _noTrailing;
@@ -89,13 +87,11 @@ class _RoundedExpansionTileState extends State<RoundedExpansionTile>
     super.initState();
     _expanded = widget.initiallyExpanded;
     // If not provided, this will be true
-    _rotateTrailing =
-    widget.rotateTrailing == null ? true : widget.rotateTrailing;
+    _rotateTrailing = widget.rotateTrailing == null ? true : widget.rotateTrailing;
     // If not provided this will be false
     _noTrailing = widget.noTrailing == null ? false : widget.noTrailing;
     _controller = AnimationController(
-        vsync: this,
-        duration: widget.duration == null ? defaultDuration : widget.duration);
+        vsync: this, duration: widget.duration == null ? defaultDuration : widget.duration);
 
     _iconController = AnimationController(
       duration: widget.duration == null ? defaultDuration : widget.duration,
@@ -131,8 +127,8 @@ class _RoundedExpansionTileState extends State<RoundedExpansionTile>
             // If bool is not provided the default will be true.
             enabled: widget.enabled ?? true,
             enableFeedback:
-            // If bool is not provided the default will be false.
-            widget.enableFeedback ?? false,
+                // If bool is not provided the default will be false.
+                widget.enableFeedback ?? false,
             focusColor: widget.focusColor,
             focusNode: widget.focusNode,
             horizontalTitleGap: widget.horizontalTitleGap,
@@ -177,24 +173,17 @@ class _RoundedExpansionTileState extends State<RoundedExpansionTile>
             },
           ),
           AnimatedCrossFade(
-              firstCurve: widget.curve == null
-                  ? Curves.fastLinearToSlowEaseIn
-                  : widget.curve!,
-              secondCurve: widget.curve == null
-                  ? Curves.fastLinearToSlowEaseIn
-                  : widget.curve!,
-              crossFadeState: _expanded
-                  ? CrossFadeState.showFirst
-                  : CrossFadeState.showSecond,
-              duration:
-              widget.duration == null ? defaultDuration : widget.duration!,
+              firstCurve: widget.curve == null ? Curves.fastLinearToSlowEaseIn : widget.curve!,
+              secondCurve: widget.curve == null ? Curves.fastLinearToSlowEaseIn : widget.curve!,
+              crossFadeState: _expanded ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+              duration: widget.duration == null ? defaultDuration : widget.duration!,
               firstChild:
 
-              /// Returns Listviews for the children.
-              ///
-              /// ClampingScrollPhyiscs so the ListTile will scroll in the main screen and not its children.
-              /// Shrinkwrap is always true so the ExpansionTile will wrap its children and hide when not expanded.
-              ListView(
+                  /// Returns Listviews for the children.
+                  ///
+                  /// ClampingScrollPhyiscs so the ListTile will scroll in the main screen and not its children.
+                  /// Shrinkwrap is always true so the ExpansionTile will wrap its children and hide when not expanded.
+                  ListView(
                 physics: ClampingScrollPhysics(),
                 padding: widget.childrenPadding ?? EdgeInsets.zero,
                 shrinkWrap: true,
@@ -210,16 +199,14 @@ class _RoundedExpansionTileState extends State<RoundedExpansionTile>
     if (widget.trailing != null) {
       if (_rotateTrailing!) {
         return RotationTransition(
-            turns: Tween(begin: 0.0, end: 0.5).animate(_iconController),
-            child: widget.trailing);
+            turns: Tween(begin: 0.0, end: 0.5).animate(_iconController), child: widget.trailing);
       } else {
         // If developer sets rotateTrailing to false the widget will just be returned.
         return widget.trailing;
       }
     } else {
       // Default trailing is an Animated Menu Icon.
-      return AnimatedIcon(
-          icon: AnimatedIcons.close_menu, progress: _controller);
+      return AnimatedIcon(icon: AnimatedIcons.close_menu, progress: _controller);
     }
   }
 }

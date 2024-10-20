@@ -9,7 +9,6 @@ import 'providers/task_provider.dart';
 import 'models/task.dart';
 import 'screens/home_screen.dart';
 
-
 void callbackDispatcher() {
   Workmanager().executeTask((task, inputData) async {
     // Initialize Flutter binding for background operation
@@ -46,23 +45,20 @@ void scheduleTaskAtTime({
   final targetTime = DateTime(now.year, now.month, now.day, targetHour, targetMinute);
 
   // If the target time is before the current time, schedule it for tomorrow
-  final nextRunTime = targetTime.isBefore(now)
-      ? targetTime.add(Duration(days: 1))
-      : targetTime;
+  final nextRunTime = targetTime.isBefore(now) ? targetTime.add(Duration(days: 1)) : targetTime;
 
   // Calculate the initial delay before the task should run
   final initialDelay = nextRunTime.difference(now);
 
   // Register the periodic task with WorkManager
   Workmanager().registerPeriodicTask(
-    taskId,           // Unique task ID
-    taskName,         // Task name
+    taskId, // Unique task ID
+    taskName, // Task name
     initialDelay: initialDelay, // Initial delay to run the task at the target time
     frequency: Duration(days: 1), // Run daily
     existingWorkPolicy: ExistingWorkPolicy.replace, // Replace existing task
   );
 }
-
 
 void main() async {
   await Hive.initFlutter();
@@ -72,9 +68,10 @@ void main() async {
   final taskBox = await Hive.openBox<Task>('taskBox');
   WidgetsFlutterBinding.ensureInitialized();
 
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
   const AndroidInitializationSettings initializationSettingsAndroid =
-  AndroidInitializationSettings('@mipmap/ic_launcher'); // App icon
+      AndroidInitializationSettings('@mipmap/ic_launcher'); // App icon
 
   const InitializationSettings initializationSettings = InitializationSettings(
     android: initializationSettingsAndroid,

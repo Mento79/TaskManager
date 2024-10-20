@@ -14,9 +14,7 @@ class TaskList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final taskProvider = Provider.of<TaskProvider>(context);
-    List<Task> tasks = taskProvider.filtered
-        ? taskProvider.filteredTasks
-        : taskProvider.allTasks;
+    List<Task> tasks = taskProvider.filtered ? taskProvider.filteredTasks : taskProvider.allTasks;
 
     return ListView.builder(
       itemCount: tasks.length,
@@ -25,10 +23,10 @@ class TaskList extends StatelessWidget {
 
         return Card(
           color: task.isCompleted
-              ? Colors.green[Theme.of(context).brightness == Brightness.dark?900:500]
+              ? Colors.green[Theme.of(context).brightness == Brightness.dark ? 900 : 500]
               : task.isOverdue
-                ? Colors.red[Theme.of(context).brightness == Brightness.dark?900:500]
-                : Colors.orange[Theme.of(context).brightness == Brightness.dark?900:500],
+                  ? Colors.red[Theme.of(context).brightness == Brightness.dark ? 900 : 500]
+                  : Colors.orange[Theme.of(context).brightness == Brightness.dark ? 900 : 500],
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
           child: RoundedExpansionTile(
             leading: Checkbox(
@@ -42,9 +40,7 @@ class TaskList extends StatelessWidget {
             title: Text(
               task.title,
               style: TextStyle(
-                decoration: task.isCompleted
-                    ? TextDecoration.lineThrough
-                    : TextDecoration.none,
+                decoration: task.isCompleted ? TextDecoration.lineThrough : TextDecoration.none,
               ),
             ),
             subtitle: Text('Priority: ${_priorityToString(task.priority)}\n'
@@ -57,41 +53,41 @@ class TaskList extends StatelessWidget {
             // },
             // childrenPadding: EdgeInsets.symmetric(horizontal: 16), // Adjust padding for expanded content
             children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(80.0 , 16.0,16.0, 16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Priority: ${_getPriorityLabel(task.priority)}',
-                          style: TextStyle(fontSize: 16),
-                        ),
-                        SizedBox(height: 8),
-                        Text(
-                          'Deadline: ${task.deadline.toString().split(' ')[0]}',
-                          style: TextStyle(fontSize: 16),
-                        ),
-                        SizedBox(height: 8),
-                        Text(
-                          'Description: ${task.description}',
-                          style: TextStyle(fontSize: 16),
-                        ),
-                      ],
+              Padding(
+                padding: const EdgeInsets.fromLTRB(80.0, 16.0, 16.0, 16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Priority: ${_getPriorityLabel(task.priority)}',
+                      style: TextStyle(fontSize: 16),
                     ),
+                    SizedBox(height: 8),
+                    Text(
+                      'Deadline: ${task.deadline.toString().split(' ')[0]}',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    SizedBox(height: 8),
+                    Text(
+                      'Description: ${task.description}',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ],
+                ),
+              ),
+              ButtonBar(
+                children: [
+                  TextButton(
+                    onPressed: () => _openEditTaskDialog(context, task),
+                    child: Text('Edit'),
                   ),
-                  ButtonBar(
-                    children: [
-                      TextButton(
-                        onPressed: () =>_openEditTaskDialog(context,task),
-                        child: Text('Edit'),
-                      ),
-                      TextButton(
-                        onPressed: () =>taskProvider.deleteTask(task),
-                        child: Text('Delete'),
-                      ),
-                    ],
+                  TextButton(
+                    onPressed: () => taskProvider.deleteTask(task),
+                    child: Text('Delete'),
                   ),
                 ],
+              ),
+            ],
           ),
         );
       },
@@ -121,16 +117,16 @@ class TaskList extends StatelessWidget {
   }
 }
 
-  // Helper method to convert priority to a readable label
-  String _getPriorityLabel(int priority) {
-    switch (priority) {
-      case 0:
-        return 'High';
-      case 1:
-        return 'Medium';
-      case 2:
-        return 'Low';
-      default:
-        return 'Unknown';
-    }
+// Helper method to convert priority to a readable label
+String _getPriorityLabel(int priority) {
+  switch (priority) {
+    case 0:
+      return 'High';
+    case 1:
+      return 'Medium';
+    case 2:
+      return 'Low';
+    default:
+      return 'Unknown';
   }
+}

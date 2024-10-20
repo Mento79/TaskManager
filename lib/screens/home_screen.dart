@@ -17,7 +17,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   List<String> _tabs = ['All Tasks', 'In Progress', 'Completed', 'Overdue'];
 
-
   void _openTaskDialog(context) {
     showDialog(
       context: context,
@@ -57,6 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     ];
   }
+
   void _showPieChartDialog(BuildContext context) {
     final taskProvider = Provider.of<TaskProvider>(context, listen: false);
     final completedCount = taskProvider.completedTasks.length;
@@ -85,9 +85,9 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         );
       },
-
     );
   }
+
   @override
   Widget build(BuildContext context) {
     final taskProvider = Provider.of<TaskProvider>(context, listen: false);
@@ -168,14 +168,13 @@ class _HomeScreenState extends State<HomeScreen> {
             },
           ),
         ],
-          backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: Theme.of(context).primaryColor,
       ),
-
       body: TaskList(tabIndex: _selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: (index) {
-          taskProvider.selectFilter(_tabs[index],false);
+          taskProvider.selectFilter(_tabs[index], false);
           setState(() {
             _selectedIndex = index;
           });
@@ -187,7 +186,8 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(icon: Icon(Icons.warning), label: 'Overdue'),
         ],
         fixedColor: Theme.of(context).primaryColor,
-        unselectedItemColor: Theme.of(context).brightness==Brightness.dark?Colors.white:Colors.black,
+        unselectedItemColor:
+            Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _openTaskDialog(context),
