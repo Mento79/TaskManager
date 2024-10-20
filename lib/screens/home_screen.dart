@@ -187,7 +187,7 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(icon: Icon(Icons.warning), label: 'Overdue'),
         ],
         fixedColor: Theme.of(context).primaryColor,
-        unselectedItemColor: Colors.black,
+        unselectedItemColor: Theme.of(context).brightness==Brightness.dark?Colors.white:Colors.black,
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _openTaskDialog(context),

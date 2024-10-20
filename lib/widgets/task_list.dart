@@ -25,10 +25,10 @@ class TaskList extends StatelessWidget {
 
         return Card(
           color: task.isCompleted
-              ? Colors.green[500]
+              ? Colors.green[Theme.of(context).brightness == Brightness.dark?900:500]
               : task.isOverdue
-                ? Colors.red[500]
-                : Colors.yellow[500],
+                ? Colors.red[Theme.of(context).brightness == Brightness.dark?900:500]
+                : Colors.orange[Theme.of(context).brightness == Brightness.dark?900:500],
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
           child: RoundedExpansionTile(
             leading: Checkbox(
