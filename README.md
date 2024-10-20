@@ -34,21 +34,19 @@ Task Manager App is a Flutter-based application designed to help users organize,
 
 1. **Clone the repository**:
 
-```bash
+   ```bash
    git clone https://github.com/Mento79/TaskManager.git
    cd TaskManager
-```
 
-2**Install dependencies**:
+2. **Install dependencies**:
 
-```bash
+   ```bash
    flutter pub get
-```
 
-3**Run the app**:
 
-```bash
-   flutter RUN
-```
+3. **Install dependencies**:
+
+   ```bash
+   flutter pub get
 
 
