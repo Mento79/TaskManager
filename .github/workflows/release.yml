@@ -35,8 +35,14 @@ jobs:
       run: flutter packages pub run build_runner build --delete-conflicting-outputs
 
     - name: Build the app
-      run: flutter build apk --release    
-      
+      run: flutter build apk --release
+
+    - name: Upload APK artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: app-release
+        path: build/app/outputs/flutter-apk/app-release.apk
+
     - name: Create Release
       uses: ncipollo/release-action@v1.14.0
       with:
