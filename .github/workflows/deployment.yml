@@ -40,5 +40,5 @@ jobs:
     - name: Create Release
       uses: ncipollo/release-action@v1.14.0
       with:
-        artifacts: "build/app/outputs/apk/debug/*.apk"
+        artifacts: "build/app/outputs/flutter-apk/app-release.apk"
         tag: v0.0.${{github.run_number}}
