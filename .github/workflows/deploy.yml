@@ -28,7 +28,7 @@ jobs:
       - name: Download APK artifact
         uses: actions/download-artifact@v3
         with:
-          name: app-release-apk  # Same name used in the first workflow
+          name: app-release.apk
           path: build/app/outputs/flutter-apk/
 
       - name: Decode Keystore
