@@ -30,6 +30,7 @@ jobs:
         with:
           name: app-release
           path: build/app/outputs/flutter-apk/
+          search_artifacts: true
 
       - name: Decode Keystore
         run: |
