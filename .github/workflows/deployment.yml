@@ -10,7 +10,7 @@ on:
       - main
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     
     steps:
@@ -21,7 +21,8 @@ jobs:
       uses: actions/setup-java@v4.2.2
       with:
         java-version: '17'
-        
+        distribution: 'temurin'
+
     - name: Install Flutter
       uses: subosito/flutter-action@v2
       with:
@@ -35,12 +36,9 @@ jobs:
 
     - name: Build the app
       run: flutter build apk --release    
-       
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Create Release
-        uses: ncipollo/release-action@v1.14.0
-        with:
-          artifacts: "build/app/outputs/apk/debug/*.apk"
-          tag: v0.0.${{github.run_number}}
+      
+    - name: Create Release
+      uses: ncipollo/release-action@v1.14.0
+      with:
+        artifacts: "build/app/outputs/apk/debug/*.apk"
+        tag: v0.0.${{github.run_number}}
