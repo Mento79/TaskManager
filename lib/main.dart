@@ -95,7 +95,7 @@ void main() async {
   scheduleTaskAtTime(
     taskId: "checkOverdueTasks",
     taskName: "checkOverdueTasks",
-    targetHour: 12, // 12:00 AM
+    targetHour: 0, // 12:00 AM
     targetMinute: 0,
   );
 
