@@ -4,10 +4,17 @@ import 'package:hive/hive.dart';
 import '../models/task.dart';
 
 class TaskProvider with ChangeNotifier {
+  // Hive box to store tasks
   Box<Task> _taskBox;
+
+  // List to hold filtered tasks
   List<Task> _filteredTasks = [];
+
+  // Options for sorting and filtering
   String _sortOption = '';
   String _filterOption = '';
+
+  // Flags for sort order and filter activation
   bool ascending = true;
   bool filtered = false;
 
@@ -20,14 +27,14 @@ class TaskProvider with ChangeNotifier {
   // Get filtered tasks
   List<Task> get filteredTasks => _filteredTasks;
 
-  // Getter to retrieve completed tasks
+  // Get completed tasks
   List<Task> get completedTasks => _taskBox.values.where((task) => task.isCompleted).toList();
 
-  // Getter to retrieve in-progress tasks
+  // Get in-progress tasks
   List<Task> get inProgressTasks =>
       _taskBox.values.where((task) => !task.isCompleted && !task.isOverdue).toList();
 
-  // Getter to retrieve overdue tasks
+  // Get overdue tasks
   List<Task> get overdueTasks =>
       _taskBox.values.where((task) => !task.isCompleted && task.isOverdue).toList();
 
@@ -52,6 +59,7 @@ class TaskProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  // Update the Filtering option
   void selectFilter(String filterOption, bool clear) {
     _filterOption = _filterOption == filterOption && clear ? '' : filterOption;
     filtered = clear ? !filtered : true;
@@ -60,6 +68,7 @@ class TaskProvider with ChangeNotifier {
     applySortingAndFiltering();
   }
 
+  // Update the sorting option and decide the order
   void selectSort(String sortOption) {
     if (_sortOption == sortOption) {
       ascending = !ascending;
@@ -70,6 +79,7 @@ class TaskProvider with ChangeNotifier {
     applySortingAndFiltering();
   }
 
+  // Filter tasks by Completion status (Completed or in Progress)
   void filterByCompletionStatus(bool isCompleted) {
     final filteredTasks = _taskBox.values
         .where((task) => isCompleted
@@ -81,6 +91,7 @@ class TaskProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  // Filter tasks by Overdue Status
   void filterByOverdue() {
     final filteredTasks =
         _taskBox.values.where((task) => !task.isCompleted && task.isOverdue).toList();
@@ -89,6 +100,7 @@ class TaskProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  // Filter tasks by priority
   void filterByPriority(int priority) {
     final filteredTasks = _taskBox.values.where((task) => task.priority == priority).toList();
     // Replace the task list with the filtered tasks
@@ -134,6 +146,7 @@ class TaskProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  // Sort tasks by priority
   void sortByPriority(bool ascending) {
     if (_filteredTasks.isEmpty) {
       _filteredTasks = _taskBox.values.toList();
@@ -143,6 +156,7 @@ class TaskProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  // Sort tasks by Deadline
   void sortByDeadline(bool ascending) {
     if (_filteredTasks.isEmpty) {
       _filteredTasks = _taskBox.values.toList();
@@ -152,6 +166,7 @@ class TaskProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  // detect the sorting and filtering options and apply them
   void applySortingAndFiltering() {
     switch (_filterOption) {
       case 'Completed':
@@ -241,6 +256,7 @@ class TaskProvider with ChangeNotifier {
     );
   }
 
+  // Method to check for tasks due today and notify user
   Future<void> checkAndNotifyForTodayTasks() async {
     final today = DateTime.now();
     final tasksDueToday = _taskBox.values.where((task) {
@@ -255,6 +271,7 @@ class TaskProvider with ChangeNotifier {
     }
   }
 
+  // Method to send a notification for tasks due today
   void _sendTodayTaskNotification(int taskCount) async {
     final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
     const AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails(

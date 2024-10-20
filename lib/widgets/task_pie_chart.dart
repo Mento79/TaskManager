@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
+// Widget to display task statistics in a pie chart format
 class TaskPieChart extends StatelessWidget {
   final int completedTasks;
   final int inProgressTasks;
@@ -24,6 +25,7 @@ class TaskPieChart extends StatelessWidget {
     );
   }
 
+  // Function to generate pie chart sections based on task counts
   List<PieChartSectionData> _buildPieChartSections() {
     final totalTasks = completedTasks + inProgressTasks + overdueTasks;
     final completedPercentage = (completedTasks / totalTasks) * 100;

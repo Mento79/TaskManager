@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../models/task.dart';
 import '../providers/task_provider.dart';
 
+// Placeholder for task creation dialog
 class TaskDialog extends StatefulWidget {
   @override
   State<TaskDialog> createState() => _TaskDialogState();
@@ -96,10 +97,14 @@ class _TaskDialogState extends State<TaskDialog> {
               Provider.of<TaskProvider>(context, listen: false).addTask(newTask);
 
               Navigator.of(context).pop();
-            } else {
+            } else if (_titleController.text.isEmpty){
               // Handle empty title
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text('Title cannot be empty!')),
+              );
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('You must select a deadline!')),
               );
             }
           },

@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../models/task.dart';
 import '../providers/task_provider.dart';
 
+// Placeholder for task editing dialog
 class EditTaskDialog extends StatefulWidget {
   final Task task;
 
@@ -104,8 +105,15 @@ class _EditTaskDialogState extends State<EditTaskDialog> {
         ),
         ElevatedButton(
           onPressed: () {
-            _editTask(taskProvider);
-            Navigator.of(context).pop();
+            if (_titleController.text.isNotEmpty){
+              _editTask(taskProvider);
+              Navigator.of(context).pop();
+            }
+            else{
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Title cannot be empty!')),
+              );
+            }
           },
           child: Text('Save'),
         ),

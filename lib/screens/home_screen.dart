@@ -1,9 +1,8 @@
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../widgets/TaskDialog.dart';
-import '../widgets/TaskPieChart.dart';
+import '../widgets/task_dialog.dart';
+import '../widgets/task_pie_chart.dart';
 import '../widgets/task_list.dart';
 import '../providers/task_provider.dart';
 
@@ -13,10 +12,12 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 0; // Index for BottomNavigationBar
 
+  // Tabs for task filter (All, In Progress, Completed, Overdue)
   List<String> _tabs = ['All Tasks', 'In Progress', 'Completed', 'Overdue'];
 
+  // Function to open the Task dialog to create a new task
   void _openTaskDialog(context) {
     showDialog(
       context: context,
@@ -27,36 +28,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   // Generate pie chart sections based on task status counts
-
-  List<PieChartSectionData> _generatePieChartSections(int completed, int inProgress, int overdue) {
-    final total = completed + inProgress + overdue;
-    if (total == 0) return [];
-
-    return [
-      PieChartSectionData(
-        color: Colors.green,
-        value: (completed / total) * 100,
-        title: '${(completed / total * 100).toStringAsFixed(1)}%',
-        radius: 60,
-        titleStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
-      ),
-      PieChartSectionData(
-        color: Colors.blue,
-        value: (inProgress / total) * 100,
-        title: '${(inProgress / total * 100).toStringAsFixed(1)}%',
-        radius: 60,
-        titleStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
-      ),
-      PieChartSectionData(
-        color: Colors.red,
-        value: (overdue / total) * 100,
-        title: '${(overdue / total * 100).toStringAsFixed(1)}%',
-        radius: 60,
-        titleStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
-      ),
-    ];
-  }
-
   void _showPieChartDialog(BuildContext context) {
     final taskProvider = Provider.of<TaskProvider>(context, listen: false);
     final completedCount = taskProvider.completedTasks.length;
@@ -101,7 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: Icon(Icons.pie_chart),
             onPressed: () => _showPieChartDialog(context),
           ),
-          // Sort button
+          // Popup menu to sort tasks
           PopupMenuButton<String>(
             onSelected: (value) {
               taskProvider.selectSort(value);
@@ -120,7 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ];
             },
           ),
-          // Filter button
+          // Popup menu to filter tasks
           PopupMenuButton<String>(
             onSelected: (value) {
               taskProvider.selectFilter(value, true);
@@ -170,7 +141,9 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
         backgroundColor: Theme.of(context).primaryColor,
       ),
+      // Display task list based on the selected tab
       body: TaskList(tabIndex: _selectedIndex),
+      // Bottom navigation bar to switch between task views
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: (index) {
@@ -189,6 +162,7 @@ class _HomeScreenState extends State<HomeScreen> {
         unselectedItemColor:
             Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
       ),
+      // Floating action button to add a new task
       floatingActionButton: FloatingActionButton(
         onPressed: () => _openTaskDialog(context),
         child: Icon(Icons.add),

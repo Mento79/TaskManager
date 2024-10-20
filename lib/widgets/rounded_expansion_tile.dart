@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// a tile to display tasks
 class RoundedExpansionTile extends StatefulWidget {
   final bool? autofocus;
   final EdgeInsetsGeometry? contentPadding;
