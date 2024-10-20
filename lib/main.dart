@@ -9,6 +9,7 @@ import 'providers/task_provider.dart';
 import 'models/task.dart';
 import 'screens/home_screen.dart';
 
+// Work manager call back dispatcher
 void callbackDispatcher() {
   Workmanager().executeTask((task, inputData) async {
     // Initialize Flutter binding for background operation
@@ -23,7 +24,6 @@ void callbackDispatcher() {
     if (task == "checkOverdueTasks") {
       // Perform background overdue task check
       taskProvider.checkAndMarkOverdueTasks();
-      print(taskProvider.allTasks.length);
     } else if (task == "checkTodayTasks") {
       // Perform background upcoming today task check
       taskProvider.checkAndNotifyForTodayTasks();
@@ -32,6 +32,7 @@ void callbackDispatcher() {
   });
 }
 
+// Make the background task run in certain time
 void scheduleTaskAtTime({
   required String taskId,
   required String taskName,
@@ -68,24 +69,24 @@ void main() async {
   final taskBox = await Hive.openBox<Task>('taskBox');
   WidgetsFlutterBinding.ensureInitialized();
 
+  // Initialize Flutter Local Notifications Plugin
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
   const AndroidInitializationSettings initializationSettingsAndroid =
       AndroidInitializationSettings('@mipmap/ic_launcher'); // App icon
-
   const InitializationSettings initializationSettings = InitializationSettings(
     android: initializationSettingsAndroid,
   );
-
   await flutterLocalNotificationsPlugin.initialize(initializationSettings);
 
+  // Check for notifications permission and grant it if not granted
   PermissionStatus status = await Permission.notification.status;
-
   if (!status.isGranted) {
-// The permission is not granted, request it.
+    // The permission is not granted, request it.
     status = await Permission.notification.request();
   }
 
+  // Inialize the work manager
   Workmanager().initialize(callbackDispatcher);
 
   // Schedule the overdue check at 12:00 AM every day

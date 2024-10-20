@@ -64,7 +64,6 @@ class _TaskDialogState extends State<TaskDialog> {
                 if (pickedDate != null) {
                   setState(() {
                     _deadline = pickedDate;
-                    print('bingo');
                   });
                 }
               },
